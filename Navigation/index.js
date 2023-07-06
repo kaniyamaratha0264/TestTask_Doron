@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-// import {createStackNavigator} from '@react-navigation/stack';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import LoginScreen from '../Screens/LoginScreen';
@@ -10,27 +9,41 @@ import SignupScreen from '../Screens/SignupScreen';
 const Stack = createNativeStackNavigator();
 
 const MainStack = () => {
-  const [initialRouteName, setInitialRouteName] = useState('LoginScreen');
+  const [flowStatus, setFlowStatus] = useState('');
 
   useEffect(() => {
     async function getFlowStatus() {
       let flow = await AsyncStorage.getItem('flowStatus');
-      flow === 'loginSuccess' && setInitialRouteName('HomeScreen');
+      setFlowStatus(flow);
     }
     getFlowStatus();
   }, []);
 
-  console.log(initialRouteName);
+  const MainStack = () => {
+    return (
+      <Stack.Navigator
+        initialRouteName={'LoginScreen'}
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+      </Stack.Navigator>
+    );
+  };
 
-  return (
-    <Stack.Navigator
-      initialRouteName={initialRouteName}
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="SignupScreen" component={SignupScreen} />
-    </Stack.Navigator>
-  );
+  const AuthStack = () => {
+    return (
+      <Stack.Navigator
+        initialRouteName={'HomeScreen'}
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  return flowStatus === 'loginSuccess' ? <AuthStack /> : <MainStack />;
 };
 
 export default MainStack;

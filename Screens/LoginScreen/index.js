@@ -51,7 +51,6 @@ const LoginScreen = ({navigation}) => {
         }
       } catch (e) {
         // error reading value
-        console.log(e);
         ToastAndroid.show('Something went wrong, please try again', 2);
       }
     } else {

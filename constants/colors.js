@@ -5,4 +5,6 @@ export const Colors = {
   hintTextColor: '#C2C2C2',
   black: '#000000',
   borderColor: '#2A97FA',
+  sheetColor: '#5B4EFB',
+  subTitleColor: '#6D717B',
 };

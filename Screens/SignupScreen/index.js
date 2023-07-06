@@ -27,10 +27,17 @@ const SignupScreen = ({navigation}) => {
   const [error, setError] = useState({
     userNameErr: false,
     emailError: false,
+    validEmailError: false,
     passwordError: false,
     confirmPasswordError: false,
   });
-  const {userNameErr, emailError, passwordError, confirmPasswordError} = error;
+  const {
+    userNameErr,
+    emailError,
+    passwordError,
+    confirmPasswordError,
+    validEmailError,
+  } = error;
   const {userName, email, password, confirmPassword} = userData;
 
   const signUp = async () => {
@@ -70,7 +77,6 @@ const SignupScreen = ({navigation}) => {
               errorText={'Please enter a username'}
               errorStatus={userNameErr}
               onChangeText={value => {
-                console.log(value);
                 if (value.length > 0) {
                   setUserData({...userData, userName: value});
                   setError({...error, userNameErr: false});
@@ -82,14 +88,35 @@ const SignupScreen = ({navigation}) => {
             <CommonTextInput
               inputstyle={{marginTop: 12}}
               placeholder={'Email'}
-              errorText={'Please enter your email'}
+              errorText={
+                validEmailError
+                  ? 'Please enter valid email'
+                  : 'Please enter your email'
+              }
               errorStatus={emailError}
               onChangeText={value => {
+                let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
                 if (value.length > 0) {
-                  setUserData({...userData, email: value});
-                  setError({...error, emailError: false});
+                  if (reg.test(value) == true) {
+                    setUserData({...userData, email: value});
+                    setError({
+                      ...error,
+                      emailError: false,
+                      validEmailError: false,
+                    });
+                  } else {
+                    setError({
+                      ...error,
+                      validEmailError: true,
+                      emailError: true,
+                    });
+                  }
                 } else {
-                  setError({...error, emailError: true});
+                  setError({
+                    ...error,
+                    emailError: true,
+                    validEmailError: false,
+                  });
                 }
               }}
             />
