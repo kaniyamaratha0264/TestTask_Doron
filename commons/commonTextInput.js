@@ -28,12 +28,10 @@ export default CommonTextInput = ({
         placeholderTextColor={Colors.hintTextColor}
         secureTextEntry={secureTextEntry ? secureTextEntry : false}
         onChangeText={onChangeText}
-        autoFocus={true}
       />
-      {errorStatus && <Text style={styles.errStyle}>{errorText}</Text>}
       {isPasswordField && (
         <TouchableOpacity
-          style={styles.passIconStyle}
+          style={[styles.passIconStyle, {top: errorStatus ? '33%' : '45%'}]}
           onPress={handlePasswordStatus}>
           <FontAwesome5
             name={secureTextEntry ? 'eye-slash' : 'eye'}
@@ -42,6 +40,7 @@ export default CommonTextInput = ({
           />
         </TouchableOpacity>
       )}
+      {errorStatus ? <Text style={styles.errStyle}>{errorText}</Text> : null}
     </View>
   );
 };
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
   passIconStyle: {
     position: 'absolute',
     alignSelf: 'flex-end',
-    top: '45%',
+
     right: '8%',
     paddingHorizontal: 2,
     paddingVertical: 2,

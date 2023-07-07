@@ -7,8 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
   ToastAndroid,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './style';
 import CommonTextInput from '../../commons/commonTextInput';
 import CommonButton from '../../commons/commonButton';
@@ -62,15 +63,19 @@ const LoginScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView>
         <ScrollView>
-          <Image
-            source={require('../../assets/images/TopHeaderImage.png')}
-            style={styles.imageStyle}
-          />
+          <View style={{width: '100%', flex: 1}}>
+            <Image
+              source={require('../../assets/images/TopHeaderImage.png')}
+              style={styles.imageStyle}
+              resizeMode="stretch"
+            />
+          </View>
           <Text style={styles.titleText}>Login</Text>
           <View style={styles.formContainer}>
             <CommonTextInput
               errorText={'Please enter your email'}
               errorStatus={emailError}
+              value={userData.email}
               placeholder={'Email'}
               onChangeText={value => {
                 if (value.length > 0) {
@@ -84,6 +89,7 @@ const LoginScreen = ({navigation}) => {
             <CommonTextInput
               placeholder={'Password'}
               inputstyle={{marginTop: 12}}
+              value={userData.password}
               errorText={'Please enter password'}
               errorStatus={passwordError}
               secureTextEntry={secureTextStatus}

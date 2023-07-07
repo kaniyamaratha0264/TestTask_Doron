@@ -7,8 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
   ToastAndroid,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './style';
 import CommonTextInput from '../../commons/commonTextInput';
 import CommonButton from '../../commons/commonButton';
@@ -76,6 +77,7 @@ const SignupScreen = ({navigation}) => {
               placeholder={'Username'}
               errorText={'Please enter a username'}
               errorStatus={userNameErr}
+              value={userData.userName}
               onChangeText={value => {
                 if (value.length > 0) {
                   setUserData({...userData, userName: value});
@@ -127,6 +129,7 @@ const SignupScreen = ({navigation}) => {
               errorStatus={passwordError}
               secureTextEntry={pasSecStatus}
               isPasswordField={true}
+              value={userData.password}
               onChangeText={value => {
                 if (value.length > 0) {
                   setUserData({...userData, password: value});
@@ -139,15 +142,23 @@ const SignupScreen = ({navigation}) => {
             />
             <CommonTextInput
               placeholder={'Confirm Password'}
-              errorText={'Please confirm your password'}
+              errorText={
+                password !== confirmPassword
+                  ? 'Confirm password should be same as set password'
+                  : 'Please confirm your password'
+              }
               errorStatus={confirmPasswordError}
               inputstyle={{marginTop: 12}}
               secureTextEntry={conPasSecStatus}
               isPasswordField={true}
               onChangeText={value => {
                 if (value.length > 0) {
-                  setUserData({...userData, confirmPassword: value});
-                  setError({...error, confirmPasswordError: false});
+                  if (password !== value) {
+                    setError({...error, confirmPasswordError: true});
+                  } else {
+                    setUserData({...userData, confirmPassword: value});
+                    setError({...error, confirmPasswordError: false});
+                  }
                 } else {
                   setError({...error, confirmPasswordError: true});
                 }
