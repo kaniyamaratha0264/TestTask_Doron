@@ -15,6 +15,7 @@ import CommonTextInput from '../../commons/commonTextInput';
 import CommonButton from '../../commons/commonButton';
 import {Colors} from '../../constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CommonActions} from '@react-navigation/native';
 
 const SignupScreen = ({navigation}) => {
   const [pasSecStatus, setPasSecStatus] = useState(true);
@@ -176,7 +177,14 @@ const SignupScreen = ({navigation}) => {
               </Text>
               <TouchableOpacity>
                 <Text
-                  onPress={() => navigation.navigate('LoginScreen')}
+                  onPress={() =>
+                    navigation.dispatch(
+                      CommonActions.reset({
+                        index: 1, // Index of the screen you want to navigate to (second screen)
+                        routes: [{name: 'LoginScreen'}], // Route name of the second screen
+                      }),
+                    )
+                  }
                   style={[
                     styles.alreadyAccTextStyle,
                     {fontWeight: '500', color: Colors.borderColor},

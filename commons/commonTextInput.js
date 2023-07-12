@@ -34,7 +34,7 @@ export default CommonTextInput = ({
           style={[styles.passIconStyle, {top: errorStatus ? '33%' : '45%'}]}
           onPress={handlePasswordStatus}>
           <FontAwesome5
-            name={secureTextEntry ? 'eye-slash' : 'eye'}
+            name={secureTextEntry ? 'eye' : 'eye-slash'}
             color={Colors.hintTextColor}
             size={16}
           />
